@@ -5,6 +5,8 @@ using BenchmarkDotNet.Running;
 
 namespace MyBenchmarks
 {
+    [JsonExporterAttribute.Brief]
+    [JsonExporterAttribute.Full]
     public class Md5VsSha256
     {
         private const int N = 100;
