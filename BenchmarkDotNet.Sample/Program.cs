@@ -6,7 +6,7 @@ using BenchmarkDotNet.Running;
 namespace MyBenchmarks
 {
     [JsonExporterAttribute.Brief]
-    [JsonExporterAttribute.Full]
+    //[JsonExporterAttribute.Full]
     public class Md5VsSha256
     {
         private const int N = 100;
@@ -28,11 +28,27 @@ namespace MyBenchmarks
         public byte[] Md5() => md5.ComputeHash(data);
     }
 
+    [JsonExporterAttribute.Brief]
+    [SimpleJob(launchCount: 1, warmupCount: 1, targetCount: 10)]
+    public class ThreadSleep
+    {
+        [Params(100, 50)]
+        public int A { get; set; }
+
+        [Params(5)]
+        public int B { get; set; }
+
+        [Benchmark]
+        public void Benchmark() => Thread.Sleep(A + B + 50);
+    }
+
     public class Program
     {
         public static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<Md5VsSha256>();
+            var summary = BenchmarkRunner.Run<ThreadSleep>();
         }
     }
 }
+
+
